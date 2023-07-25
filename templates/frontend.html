@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>House Price Prediction-ML Projects</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+        <!-- Bootstrap Font Icon CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand"><b>House Price Prediction</b></a>
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-2">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Docs</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="headings my-4">
+        <a class="brand" id="brand" href="#">
+            <img src="/static/images/house_logo.png" alt="" width="120" height="120">
+        </a>
+        <br>
+        <h1 class="text-center my-5"><b>Bangalore House Price Prediction</b></h1>
+    </div>
+    <style>
+        #brand img {
+            margin-left: 460pt;
+        }
+
+        form input {
+            margin-bottom: 3px;
+        }
+    </style>
+
+    <div class="container my-5">
+        <form class="row" action="{{ url_for('predict')}}" method="post">
+            <div class="form-outline col-6">
+                <label for="inputnumber" class="form-label"><b>No. of Bathrooms</b></label>
+                <input type="number" class="form-control" id="bathrooms" name="bathrooms" required="required">
+            </div>
+
+            <div class="form-outline col-6">
+                <label for="inputnumber" class="form-label"><b>No. of Balcony</b></label>
+                <input type="number" class="form-control" id="balcony"  name="balcony" required="required">
+            </div>
+            <br>
+            <div class="form-outline col-6">
+                <label for="inputnumber" class="form-label"><b>Total Square Feet</b></label>
+                <input type="number" step="0.1" class="form-control" name="total_sqft_int" id="total_sqft_int" required="required">
+            </div>
+
+            <div class="form-outline col-6">
+                <label for="inputnumber" class="form-label"><b>No. of BHK</b></label>
+                <input type="number" class="form-control"  name="bhk"id="bhk" required="required">
+            </div>
+            <br>
+
+            <div class="form-outline col-6">
+                <label for="inputarea" class="form-label"><b>Area Types</b></label>
+                <select id="area_type" name="area_type" class="form-select" required="required">
+                    <option selected>Choose...</option>
+                    <option>Super built-up Area</option>
+                    <option>Plot Area</option>
+                    <option>Built-up Area</option>
+                    <option>Carpet Area</option>
+                </select>
+            </div>
+            <div class="form-outline col-6">
+                <label for="inputlocation" class="form-label"><b>Location</b></label>
+                <select id="location" name="location" class="form-select" required="required">
+                    <option selected>Choose...</option>
+                    <option>Whitefield</option>
+                    <option>Sarjapur Road</option>
+                    <option>Electronic City</option>
+                    <option>Marathahalli</option>
+                    <option>Raja Rajeshwari Nagar</option>
+                    <option>Haralur Road</option>
+                    <option>Hennur Road</option>
+                    <option>Bannerghatta Road</option>
+                    <option>Uttarahalli</option>
+                    <option>Thanisandra</option>
+                    <option>Electronic City Phase II</option>
+                    <option>Hebbal</option>
+                    <option>Yelahanka</option>
+                    <option>7th Phase JP Nagar</option>
+                    <option>Kanakpura Road</option>
+                    <option>KR Puram</option>
+                    <option>Sarjapur</option>
+                    <option>Rajaji Nagar</option>
+                    <option>Bellandur</option>
+                    <option>Kasavanhalli</option>
+                    <option>Begur Road</option>
+                    <option>Banashankari</option>
+                    <option>Kothanur</option>
+                    <option>Hormavu</option>
+                    <option>Harlur</option>
+                    <option>Akshaya Nagar</option>
+                    <option>Electronics City Phase 1</option>
+                    <option>Jakkur</option>
+                    <option>Varthur</option>
+                    <option>HSR Layout</option>
+                    <option>Hennur</option>
+                    <option>Ramamurthy Nagar</option>
+                    <option>Chandapura</option>
+                    <option>Koramangala</option>
+                    <option>Kaggadasapura</option>
+                    <option>Kundalahalli</option>
+                    <option>Ramagondanahalli</option>
+                    <option>Budigere</option>
+                    <option>Hulimavu</option>
+                    <option>Hoodi</option>
+                    <option>Malleshwaram</option>
+                    <option>Hegde Nagar</option>
+                    <option>Yeshwanthpur</option>
+                    <option>8th Phase JP Nagar</option>
+                    <option>JP Nagar</option>
+                    <option>Channasandra</option>
+                    <option>Bisuvanahalli</option>
+                    <option>Vittasandra</option>
+                    <option>Indira Nagar</option>
+                    <option>Old Airport Road</option>
+                    <option>Sahakara Nagar</option>
+                    <option>Brookefield</option>
+                    <option>Indira Nagar</option>
+                    <option>Hosa Road</option>
+                    <option>Vijayanagar</option>
+                    <option>Balagere</option>
+                    <option>Green Glen Layout</option>
+                    <option>Bommasandra</option>
+                    <option>Rachenahalli</option>
+                    <option>Bommasandra</option>
+                    <option>Panathur</option>
+                    <option>Old Madras Road</option>
+                    <option>Kudlu Gate</option>
+                    <option>Mysore Road</option>
+                    <option>Thigalarapalya</option>
+                    <option>Talaghattapura</option>
+                    <option>Kadugodi</option>
+                    <option>Ambedkar Nagar</option>
+                    <option>Jigani</option>
+                    <option>Yelahanka New Town</option>
+                    <option>Frazer Town</option>
+                    <option>Kanakapura</option>
+                    <option>Attibele</option>
+                    <option>Dodda Nekkundi</option>
+                    <option>Devanahalli</option>
+                    <option>Lakshminarayana Pura</option>
+                    <option>Nagarbhavi</option>
+                    <option>5th Phase JP Nagar</option>
+                    <option>TC Palaya</option>
+                    <option>Ananth Nagar</option>
+                    <option>Anekal</option>
+                    <option>Kudlu</option>
+                    <option>CV Raman Nagar</option>
+                    <option>Jalahalli</option>
+                    <option>Kengeri Satellite Town</option>
+                    <option>Doddathoguru</option>
+                    <option>Bhoganhalli</option>
+                    <option>Subramanyapura</option>
+                    <option>Kalena Agrahara</option>
+                    <option>Horamavu Agara</option>
+                    <option>Vidyaranyapura</option>
+                    <option>Hosur Road</option>
+                    <option>Hebbal Kempapura</option>
+                    <option>BTM 2nd Stage</option>
+                    <option>Domlur</option>
+                    <option>Horamavu Banaswadi</option>
+                    <option>Tumkur Road</option>
+                    <option>Mahadevpura</option>
+                </select>
+            </div>
+            <br>
+            <div class="col-12 my-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                    <label class="form-check-label" for="gridCheck" required="required">
+                        Check me out
+                    </label>
+                </div>
+            </div>
+            <br>
+            <div class="d-grid my-3" target="_blank" rel="nofollow noopener">
+                <button class="btn btn-success" type="submit">Predict the House Price</button>
+            </div>
+            <div class="result"></div>
+        </form>
+        <div class="content my-5">
+            <h2 class="text-center"><b>Thank You!</b></h2>
+            <p class="text-center">This Machine Learning Projects are developed and run under the Atobtech Group. All the
+                information are Verified and Correct.All the General rules and Guidlines are follows at the time of making website. You can visit my all social
+                media accounts for verify the information and more understanding. </p>
+            <div class="text-center" >
+                <a class="mx-1" href="https://www.facebook.com/akshaykumar.hiran.1" ><i class="bi bi-facebook" style="font-size: 30px;"></i></a>
+                <a class="mx-1" href="https://www.instagram.com/akshaykumar_3294/"><i class="bi bi-instagram" style="font-size: 30px;" ></i></a>
+                <a class="mx-1" href="https://www.linkedin.com/in/akshay-kumar-hiran-61407a209/"><i
+                        class="bi bi-linkedin" style="font-size: 30px;"></i></a>
+                <a class="mx-1" href="https://twitter.com/akshay_3294"><i class="bi bi-twitter" style="font-size: 30px;"></i></a>
+                <a class="mx-1" href="https://www.github.com/Ak3294"><i class="bi bi-github" style="font-size: 30px;"></i></a>
+            </div>
+            <div class="text-center">
+                <p>copyright2023 &copy; <a href="https://atobtech.blogspot.com">atobtech.blogspot.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
